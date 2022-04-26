@@ -4,7 +4,7 @@
 A treasure hunt script, highly configurable, easy drag and drop into server
 
 ## Video Preview
-https://www.youtube.com/watch?v=Uk-hqCwVUxI
+
 
 ## Dependencies
 - <a href="https://github.com/qbcore-framework/qb-core">**qb-core**</a>
