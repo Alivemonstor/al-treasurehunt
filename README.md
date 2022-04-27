@@ -1,13 +1,14 @@
 # al-treasurehunt
 
 
-A treasure hunt script, highly configurable, easy drag and drop into server
+A new way for your non-illegal players to get some non-illegal money! Configurable to add items of your choice and locations of your choice. This script brings the fun in RP!
 
 ## Video Preview
 
 
 ## Dependencies
 - <a href="https://github.com/qbcore-framework/qb-core">**qb-core**</a>
+- <a href="https://github.com/qbcore-framework/qb-menu">**qb-menu**</a> 
 - <a href="https://github.com/BerkieBb/qb-target">**qb-target**</a>
 - <a href="https://github.com/mkafrin/PolyZone">**PolyZone**</a>
 
