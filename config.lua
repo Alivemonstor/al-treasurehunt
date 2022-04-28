@@ -5,7 +5,8 @@ Config = {}
 Config.TreasureLocations = {
     [1] = {
         name = "PierBeach",
-        debugPoly = true, 
+        debugPoly = true,
+        blip = vector3(),
         zones = {
             vector2(-1215.8862304688, -1763.9927978516),
             vector2(-1261.4217529297, -1830.6840820312),
@@ -18,7 +19,8 @@ Config.TreasureLocations = {
     },
     [2] = {
         name = "PierBeach2",
-        debugPoly = true, 
+        debugPoly = true,
+        blip = vector3(),
         zones = {
             vector2(-1679.6752929688, -981.88470458984),
             vector2(-1679.6752929688, -981.88470458984),
@@ -32,7 +34,8 @@ Config.TreasureLocations = {
     },
     [3] = {
         name = "Golf Course",
-        debugPoly = true, 
+        debugPoly = true,
+        blip = vector3(),
         zones = {
             vector2(-1075.5496826172, -145.32153320312),
             vector2(-1324.7716064453, 23.515180587769),
