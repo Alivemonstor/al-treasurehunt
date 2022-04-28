@@ -6,7 +6,7 @@ Config.TreasureLocations = {
     [1] = {
         name = "PierBeach",
         debugPoly = true,
-        blip = vector3(),
+        blip = vector3(-1477.09, -1218.28, 4.41),
         zones = {
             vector2(-1215.8862304688, -1763.9927978516),
             vector2(-1261.4217529297, -1830.6840820312),
@@ -20,7 +20,7 @@ Config.TreasureLocations = {
     [2] = {
         name = "PierBeach2",
         debugPoly = true,
-        blip = vector3(),
+        blip = vector3(-1785.73, -800.48, 9.94),
         zones = {
             vector2(-1679.6752929688, -981.88470458984),
             vector2(-1679.6752929688, -981.88470458984),
@@ -35,7 +35,7 @@ Config.TreasureLocations = {
     [3] = {
         name = "Golf Course",
         debugPoly = true,
-        blip = vector3(),
+        blip = vector3(-1216.32, 87.66, 56.6),
         zones = {
             vector2(-1075.5496826172, -145.32153320312),
             vector2(-1324.7716064453, 23.515180587769),
@@ -49,15 +49,34 @@ Config.PedModel = 'a_m_y_hiker_01'
 
 Config.PedLocation = vector4(501.27, 5603.83, 797.91, 173.48)
 
+Config.EmeraldOrePrice = 7500
+
+Config.DiamondOrePrice = 5000
+
+Config.GoldOrePrice = 2500
+
+-- Config.EmeraldPrice = 15000
+
+-- Config.DiamondPrice = 10000
+
+-- Config.GoldPrice = 5000
+
 Config.Treasureloot = {
      ['Tier1'] = {
-        'plastic',
+        [1] = {
+            'plastic',
+            'phone'
+        },
     },
     ['Tier2'] = {
-        'meth',
+        [1] = {
+            'diamondore',
+        }
     },
     ['Tier3'] = {
-        'weed',    
+        [1] = {
+            'emeraldore',  
+        }   
     }
 }
 

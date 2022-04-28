@@ -8,17 +8,21 @@ QBCore.Functions.CreateUseableItem("treasuremap", function(src, item)
     TriggerClientEvent("al-treasurehunt:usemap", src )
 end)
 
-RegisterServerEvent('al-treasurehunt:additems')
-AddEventHandler('al-treasurehunt:additems', function()
+RegisterServerEvent('al-treasurehunt:AddItems')
+AddEventHandler('al-treasurehunt:AddItems', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local Chance = math.random(1, 100)
     local Tier = GetTier(Chance)
-    local Item = ItemPicker(Tier)
+    local Items = ItemPicker(Tier)
     local Amount = GetAmount(Tier)
-    Player.Functions.AddItem(Item, Amount)
-    TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[Item], "add")
-    TriggerClientEvent('QBCore:Notify', src, "You found some ".. Item .."!", "success")
+    for k, Item in pairs(Items) do
+        Player.Functions.AddItem(Item, Amount)
+        TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[Item], "add")
+        TriggerClientEvent('QBCore:Notify', src, "You found ".. QBCore.Shared.Items[Item].label .."!", "success")
+    end
+    TriggerClientEvent('al-treasurehunt:destroyzone', src)
+
 end)
 
 RegisterServerEvent("al-treasurehunt:removemap")
@@ -56,7 +60,7 @@ function GetTier(Chance)
 end
 
 function ItemPicker(Tier)
-    return Config.Treasure[Tier][math.random(1, #Config.Treasure[Tier])]
+    return Config.Treasureloot[Tier][math.random(1, #Config.Treasureloot[Tier])]
 end
 
 function GetAmount(Tier)
@@ -70,6 +74,3 @@ function GetAmount(Tier)
     end
     return Amount
 end
-
-
-
