@@ -94,7 +94,6 @@ AddEventHandler('al-treasurehunt:usemap', function()
         rotation = vector3(270.0, 90.0, 80.0)
     }, {}, {}, function()
     end)
-    print("we here")
     setlocation = GetLocation()
     print(setlocation)
     generatepolyz(setlocation)
@@ -103,4 +102,6 @@ AddEventHandler('al-treasurehunt:usemap', function()
     TriggerServerEvent("al-treasurehunt:removemap")
 end)
 
+local function setblip()
+	treasureblip = AddBlipForCoord
 
