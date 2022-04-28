@@ -41,6 +41,45 @@ Make sure you add to your items.lua (qb-core/shared/items.lua)
     ["combinable"] = nil,
     ["description"] = 'Shrivelled up paper',
 },
+
+["emeraldore"] = {
+    ["name"] = "emeraldore",
+    ["label"] = "Emerald Ore",
+    ["weight"] = 100,
+    ["type"] = "item",
+    ["image"] = "emeraldore.png",
+    ["unique"] = false,
+    ["useable"] = true,
+    ["shouldClose"] = true,
+    ["combinable"] = nil,
+    ["description"] = 'Shiny Rock',
+},
+
+["diamondore"] = {
+    ["name"] = "diamondore",
+    ["label"] = "Diamond Ore",
+    ["weight"] = 100,
+    ["type"] = "item",
+    ["image"] = "diamondore.png",
+    ["unique"] = false,
+    ["useable"] = true,
+    ["shouldClose"] = true,
+    ["combinable"] = nil,
+    ["description"] = 'Shiny Rock',
+},
+
+["goldore"] = {
+    ["name"] = "goldore",
+    ["label"] = "Gold Ore",
+    ["weight"] = 100,
+    ["type"] = "item",
+    ["image"] = "goldore.png",
+    ["unique"] = false,
+    ["useable"] = true,
+    ["shouldClose"] = true,
+    ["combinable"] = nil,
+    ["description"] = 'Shiny Rock',
+},
 </pre>
 
 Make sure to also add everything in the images folder to your inventory script's image folder.
