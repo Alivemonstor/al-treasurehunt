@@ -74,3 +74,45 @@ function GetAmount(Tier)
     end
     return Amount
 end
+
+RegisterNetEvent('al-treasurehunt:SellEmerald')
+AddEventHandler('al-treasurehunt:SellEmerald', function()
+    local src = source 
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetItemByName('emeraldore') then
+        print('You have this item SA')
+        Player.Functions.AddMoney('cash', Config.EmeraldOrePrice)
+        Player.Functions.RemoveItem("emeraldore", 1, false)
+        TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['emeraldore'], "remove")
+    else
+        TriggerClientEvent('QBCore:Notify', src, "You dont have any emeralds!", "error") 
+    end
+end)
+
+RegisterNetEvent('al-treasurehunt:SellDiamond')
+AddEventHandler('al-treasurehunt:SellDiamond', function()
+    local src = source 
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetItemByName('diamondore') then
+        print('You have this item SA')
+        Player.Functions.AddMoney('cash', Config.DiamondOrePrice)
+        Player.Functions.RemoveItem("diamondore", 1, false)
+        TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['diamondore'], "remove")
+    else
+        TriggerClientEvent('QBCore:Notify', src, "You dont have any diamonds!", "error") 
+    end
+end)
+
+RegisterNetEvent('al-treasurehunt:SellGold')
+AddEventHandler('al-treasurehunt:SellGold', function()
+    local src = source 
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.GetItemByName('goldore') then
+        print('You have this item SA')
+        Player.Functions.AddMoney('cash', Config.GoldOrePrice)
+        Player.Functions.RemoveItem("goldore", 1, false)
+        TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['goldore'], "remove")
+    else
+        TriggerClientEvent('QBCore:Notify', src, "You dont have any goldt!", "error") 
+    end
+end)
