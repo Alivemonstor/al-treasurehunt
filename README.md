@@ -1,7 +1,7 @@
 # al-treasurehunt
 
 
-A new way for your non-illegal players to get some non-illegal money! Configurable to add items of your choice and locations of your choice. This script brings the fun in RP!
+A new way for your non-illegal players to get some non-illegal money! Configurable to add items of your choice and locations of your choice. This script brings the fun in RP! Feel free to make PR's and suggestions if needed
 
 ## Video Preview
 
@@ -87,5 +87,5 @@ Make sure to also add everything in the images folder to your inventory script's
 inventory/html/images
 
 ## Shoutouts
-Big Thanks to <a href ="https://github.com/plasmaFPS">**PlasmaFPS**</a> for allowing me to use and repurpose his code!
+Big Thanks to <a href ="https://github.com/plasmaFPS">**PlasmaFPS**</a> for allowing me to use and repurpose some of his code!
 Custom Prop made by <a href="https://www.turbosquid.com/3d-models/3d-metal-detector/1138741">**Vartanyan**</a>
