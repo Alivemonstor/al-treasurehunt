@@ -22,7 +22,6 @@ AddEventHandler('al-treasurehunt:AddItems', function()
         TriggerClientEvent('QBCore:Notify', src, "You found ".. QBCore.Shared.Items[Item].label .."!", "success")
     end
     TriggerClientEvent('al-treasurehunt:destroyzone', src)
-
 end)
 
 RegisterServerEvent("al-treasurehunt:removemap")
@@ -49,9 +48,9 @@ end)
 
 function GetTier(Chance)
     local Tier = nil
-    if Chance <= 90 then
+    if Chance <= Config.LowChance then
         Tier = 'Tier1'
-    elseif Chance <= 99 then
+    elseif Chance <= Config.HighChance then
         Tier = 'Tier2'
     else
         Tier = 'Tier3'
@@ -80,7 +79,6 @@ AddEventHandler('al-treasurehunt:SellEmerald', function()
     local src = source 
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.Functions.GetItemByName('emeraldore') then
-        print('You have this item SA')
         Player.Functions.AddMoney('cash', Config.EmeraldOrePrice)
         Player.Functions.RemoveItem("emeraldore", 1, false)
         TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['emeraldore'], "remove")
@@ -94,7 +92,6 @@ AddEventHandler('al-treasurehunt:SellDiamond', function()
     local src = source 
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.Functions.GetItemByName('diamondore') then
-        print('You have this item SA')
         Player.Functions.AddMoney('cash', Config.DiamondOrePrice)
         Player.Functions.RemoveItem("diamondore", 1, false)
         TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['diamondore'], "remove")
@@ -108,11 +105,11 @@ AddEventHandler('al-treasurehunt:SellGold', function()
     local src = source 
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.Functions.GetItemByName('goldore') then
-        print('You have this item SA')
         Player.Functions.AddMoney('cash', Config.GoldOrePrice)
         Player.Functions.RemoveItem("goldore", 1, false)
         TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['goldore'], "remove")
     else
-        TriggerClientEvent('QBCore:Notify', src, "You dont have any goldt!", "error") 
+        TriggerClientEvent('QBCore:Notify', src, "You dont have any gold!", "error") 
     end
 end)
+

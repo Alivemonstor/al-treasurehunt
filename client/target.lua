@@ -29,19 +29,19 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    exports["qb-target"]:AddBoxZone("smeltitems", vector3(), 1.65, 2.4, {
+    exports["qb-target"]:AddBoxZone("smeltitems", vector3(1110.41, -2008.32, 31.14), 1.65, 2.4, {
         name = "smeltitems",
-        heading = ,
-        debugPoly = false,
-        minZ = ,
-        maxZ = ,
+        heading = 235.48,
+        debugPoly = true,
+        minZ = 30,
+        maxZ = 32,
     }, {
         options = {
             {
-                type = "server",
-                event = "al-treasurehunt:SmeltGold",
-                icon = "fas fa-tempreature-full",
-                label = "Smelt Gold",
+                type = "client",
+                event = "al-treasurehunt:SmeltItems",
+                icon = "fas fa-temperature-high",
+                label = "Smelt Items",
             },
         },
     distance = 2.5

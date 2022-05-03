@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-treasurezone = nil
+ZoneExists = false
 
 local boneoffsets = {
     ["w_am_digiscanner"] = {
@@ -13,6 +13,8 @@ local boneoffsets = {
 RegisterNetEvent('al-treasurehunt:destroyzone')
 AddEventHandler('al-treasurehunt:destroyzone', function()
     treasurezone:destroy()
+    inZone = 0
+    ZoneExists = false
     local destroyblip = RemoveBlip(destination)
     local destroyblip2 = RemoveBlip(treasureblip)
 end)
@@ -28,6 +30,9 @@ end
 
 RegisterNetEvent('al-treasurehunt:detect')
 AddEventHandler('al-treasurehunt:detect', function()
+    local coords = GetEntityCoords(PlayerPedId())
+    local forward = GetEntityForwardVector(PlayerPedId())
+    local x, y, z = table.unpack(coords + forward * 0.77)
     if inZone == 1 then 
         QBCore.Functions.Progressbar('InZone', 'Searching the area...', math.random(7000), false, true, {
             disableMovement = true,
@@ -39,15 +44,21 @@ AddEventHandler('al-treasurehunt:detect', function()
             anim = 'wood_idle_a',
             flags = 49,
         }, {}, {}, function()
-        TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10, 'metaldetector', 0.2)
-        Citizen.Wait(3000)
-        DetachEntity(ent, 0, 0)
-        DeleteEntity(ent)
-        QBCore.Functions.RequestAnimDict('amb@medic@standing@kneel@base')  
-        TaskPlayAnim(PlayerPedId(), "amb@medic@standing@kneel@base", "base", 8.0, -8.0, -1, 1, 0, false, false, false)
-        Citizen.Wait(5000)
-        StopAnimTask(PlayerPedId(), "amb@medic@standing@kneel@base", "base", 1.0)
-	    TriggerServerEvent('al-treasurehunt:AddItems')
+            TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10, 'metaldetector', 0.2)
+            Citizen.Wait(3000)
+            DetachEntity(ent, 0, 0)
+            DeleteEntity(ent)
+            local objman = CreateObject('xm_prop_x17_chest_closed', x, y, z, true, false, false)
+            local Head = GetEntityHeading(PlayerPedId())
+            PlaceObjectOnGroundProperly(objman)
+            SetEntityRotation(objman, 0.0, 0.0, Head+10.0)
+            QBCore.Functions.RequestAnimDict('anim@treasurehunt@hatchet@action')  
+            TaskPlayAnim(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 8.0, -8.0, -1, 1, 31, true, true, true)
+            PlayEntityAnim(objman, "hatchet_pickup_chest", "anim@treasurehunt@hatchet@action", 1000.0, false, true, 0, 0.0, 0)
+            Citizen.Wait(5000)
+            StopAnimTask(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 1.0)
+            DeleteEntity(objman)
+            TriggerServerEvent('al-treasurehunt:AddItems')
         end)
     else
         QBCore.Functions.Progressbar('OutZone', 'Searching the area...', math.random(5000, 10000), false, true, {
@@ -55,11 +66,12 @@ AddEventHandler('al-treasurehunt:detect', function()
             disableCarMovement = true,
             disableMouse = false,
             disableCombat = true,
+            },{
             animDict = 'mini@golfai',
             anim = 'wood_idle_a',
             flags = 49,
-        }, {}, {}, {}, function()  
-        QBCore.Functions.Notify("You found nothing, maybe try somewhere else.", "error")
+        }, {}, {}, function()  
+            QBCore.Functions.Notify("You found nothing, maybe try somewhere else.", "error")
         end)
     end
 end)
@@ -99,32 +111,38 @@ function setblip(setlocation)
     destination = AddBlipForCoord(setlocation.blip)
     SetBlipSprite(destination, 617)
     SetBlipColour(destination, 0)
+    SetBlipScale(destination, 0.9)
 end
 
 
 RegisterNetEvent('al-treasurehunt:usemap')
 AddEventHandler('al-treasurehunt:usemap', function()
-    QBCore.Functions.Progressbar('UseMap', 'Looking at the map....', 10000, false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-        },{
-        animDict = 'amb@world_human_tourist_map@male@base',
-        anim = 'base',
-        flags = 49,
-        },{
-        model = 'p_tourist_map_01_s',
-        bone = 28422,
-        offset = vector3(0.15, 0.1, 0.0),
-        rotation = vector3(270.0, 90.0, 80.0)
-    }, {}, function()
-        setlocation = GetLocation()
-        generatepolyz(setlocation)
-        print("poly loaded and dat")
-        TriggerServerEvent("al-treasurehunt:removemap")
-        setblip(setlocation)  
-    end)
+    if not ZoneExists then
+        QBCore.Functions.Progressbar('UseMap', 'Looking at the map....', 10000, false, true, {
+            disableMovement = true,
+            disableCarMovement = true,
+            disableMouse = false,
+            disableCombat = true,
+            },{
+            animDict = 'amb@world_human_tourist_map@male@base',
+            anim = 'base',
+            flags = 49,
+            },{
+            model = 'p_tourist_map_01_s',
+            bone = 28422,
+            offset = vector3(0.15, 0.1, 0.0),
+            rotation = vector3(270.0, 90.0, 80.0)
+        }, {}, function()
+            setlocation = GetLocation()
+            generatepolyz(setlocation)
+            print("poly loaded and dat")
+            TriggerServerEvent("al-treasurehunt:removemap")
+            ZoneExists = true
+            setblip(setlocation)  
+        end)
+    else
+        QBCore.Functions.Notify('You have already used a map!', 'error')
+    end
 end)
 
 
@@ -137,7 +155,7 @@ AddEventHandler('al-treasurehunt:sellitems', function()
         },
         {
             header = "Sell Emeralds",
-            txt = "Current Price: $"..Config.EmeraldOrePrice.. "Per Emerald Ore",
+            txt = "Current Price: $" ..Config.EmeraldOrePrice.. " Per Emerald Ore",
             params = {
                 isServer = true,
                 event = "al-treasurehunt:SellEmerald",
@@ -146,7 +164,7 @@ AddEventHandler('al-treasurehunt:sellitems', function()
         },
         {
             header = "Sell Diamonds",
-            txt = "Current Price: $"..Config.DiamondOrePrice.. "Per Diamond Ore ",
+            txt = "Current Price: $"..Config.DiamondOrePrice.." Per Diamond Ore ",
             params = {
                 isServer = true,
                 event = "al-treasurehunt:SellDiamond",
@@ -155,7 +173,7 @@ AddEventHandler('al-treasurehunt:sellitems', function()
         },
         {
             header = "Sell Gold",
-            txt = "Current Price: $"..Config.GoldOrePrice.. "Per Gold Ore",
+            txt = "Current Price: $" ..Config.GoldOrePrice.. " Per Gold Ore",
             params = {
                 isServer = true,
                 event = "al-treasurehunt:SellGold",

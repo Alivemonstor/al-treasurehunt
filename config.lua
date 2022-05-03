@@ -47,7 +47,7 @@ Config.TreasureLocations = {
 }
 Config.PedModel = 'a_m_y_hiker_01'
 
-Config.PedLocation = vector4(501.27, 5603.83, 797.91, 173.48)
+Config.PedLocation = vector4(-1371.1, -1204.83, 4.45, 257.94)
 
 Config.EmeraldOrePrice = 7500
 
@@ -55,18 +55,19 @@ Config.DiamondOrePrice = 5000
 
 Config.GoldOrePrice = 2500
 
--- Config.EmeraldPrice = 15000
-
--- Config.DiamondPrice = 10000
-
--- Config.GoldPrice = 5000
+Config.LowChance = 50
+-- High chance must be higher 
+Config.HighChance = 60
 
 Config.Treasureloot = {
-     ['Tier1'] = {
+    ['Tier1'] = {
         [1] = {
-            'plastic',
-            'phone'
+            'goldore',
         },
+        [2] = {
+            'phone',
+            'plastic',
+        }
     },
     ['Tier2'] = {
         [1] = {
@@ -80,3 +81,4 @@ Config.Treasureloot = {
     }
 }
 
+-- If you want to add more tiers make sure you change the tier checker in server.lua
