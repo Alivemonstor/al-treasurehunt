@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local isDetecting = false
 
 ZoneExists = false
 
@@ -17,6 +18,7 @@ AddEventHandler('al-treasurehunt:destroyzone', function()
     ZoneExists = false
     local destroyblip = RemoveBlip(destination)
     local destroyblip2 = RemoveBlip(treasureblip)
+    isDetecting = false
 end)
 
 local function AttachEntity(ped, model)
@@ -33,49 +35,55 @@ AddEventHandler('al-treasurehunt:detect', function()
     if IsPedInAnyVehicle(PlayerPedId(), false) then
       return QBCore.Functions.Notify('You cannot use the metal detector whilst in a vehicle', 'error')
     end
-    local coords = GetEntityCoords(PlayerPedId())
-    local forward = GetEntityForwardVector(PlayerPedId())
-    local x, y, z = table.unpack(coords + forward * 0.77)
-    if inZone == 1 then 
-        QBCore.Functions.Progressbar('InZone', 'Searching the area...', math.random(7000), false, true, {
-            disableMovement = true,
-            disableCarMovement = true,
-            disableMouse = false,
-            disableCombat = true,
-            },{
-            animDict = 'mini@golfai',
-            anim = 'wood_idle_a',
-            flags = 49,
-        }, {}, {}, function()
-            TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10, 'metaldetector', 0.2)
-            Citizen.Wait(3000)
-            DetachEntity(ent, 0, 0)
-            DeleteEntity(ent)
-            local objman = CreateObject('xm_prop_x17_chest_closed', x, y, z, true, false, false)
-            local Head = GetEntityHeading(PlayerPedId())
-            PlaceObjectOnGroundProperly(objman)
-            SetEntityRotation(objman, 0.0, 0.0, Head+10.0)
-            QBCore.Functions.RequestAnimDict('anim@treasurehunt@hatchet@action')  
-            TaskPlayAnim(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 8.0, -8.0, -1, 1, 31, true, true, true)
-            PlayEntityAnim(objman, "hatchet_pickup_chest", "anim@treasurehunt@hatchet@action", 1000.0, false, true, 0, 0.0, 0)
-            Citizen.Wait(5000)
-            StopAnimTask(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 1.0)
-            DeleteEntity(objman)
-            TriggerServerEvent('al-treasurehunt:AddItems')
-        end)
+    if not isDetecting then
+        local coords = GetEntityCoords(PlayerPedId())
+        local forward = GetEntityForwardVector(PlayerPedId())
+        local x, y, z = table.unpack(coords + forward * 0.77)
+        isDetecting = true
+        if inZone == 1 then 
+            QBCore.Functions.Progressbar('InZone', 'Searching the area...', math.random(7000), false, true, {
+                disableMovement = true,
+                disableCarMovement = true,
+                disableMouse = false,
+                disableCombat = true,
+                },{
+                animDict = 'mini@golfai',
+                anim = 'wood_idle_a',
+                flags = 49,
+            }, {}, {}, function()
+                TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10, 'metaldetector', 0.2)
+                Citizen.Wait(3000)
+                DetachEntity(ent, 0, 0)
+                DeleteEntity(ent)
+                local objman = CreateObject('xm_prop_x17_chest_closed', x, y, z, true, false, false)
+                local Head = GetEntityHeading(PlayerPedId())
+                PlaceObjectOnGroundProperly(objman)
+                SetEntityRotation(objman, 0.0, 0.0, Head+10.0)
+                QBCore.Functions.RequestAnimDict('anim@treasurehunt@hatchet@action')  
+                TaskPlayAnim(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 8.0, -8.0, -1, 1, 31, true, true, true)
+                PlayEntityAnim(objman, "hatchet_pickup_chest", "anim@treasurehunt@hatchet@action", 1000.0, false, true, 0, 0.0, 0)
+                Citizen.Wait(5000)
+                StopAnimTask(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 1.0)
+                DeleteEntity(objman)
+                TriggerServerEvent('al-treasurehunt:AddItems')
+            end)
+        else
+            QBCore.Functions.Progressbar('OutZone', 'Searching the area...', math.random(5000, 10000), false, true, {
+                disableMovement = true,
+                disableCarMovement = true,
+                disableMouse = false,
+                disableCombat = true,
+                },{
+                animDict = 'mini@golfai',
+                anim = 'wood_idle_a',
+                flags = 49,
+            }, {}, {}, function()  
+                QBCore.Functions.Notify("You found nothing, maybe try somewhere else.", "error")
+            end)
+            isDetecting = false
+        end
     else
-        QBCore.Functions.Progressbar('OutZone', 'Searching the area...', math.random(5000, 10000), false, true, {
-            disableMovement = true,
-            disableCarMovement = true,
-            disableMouse = false,
-            disableCombat = true,
-            },{
-            animDict = 'mini@golfai',
-            anim = 'wood_idle_a',
-            flags = 49,
-        }, {}, {}, function()  
-            QBCore.Functions.Notify("You found nothing, maybe try somewhere else.", "error")
-        end)
+        QBCore.Functions.Notify('You are already using the metal detector', 'error')
     end
 end)
 
