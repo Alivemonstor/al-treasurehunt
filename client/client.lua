@@ -33,6 +33,9 @@ AddEventHandler('al-treasurehunt:detect', function()
     local coords = GetEntityCoords(PlayerPedId())
     local forward = GetEntityForwardVector(PlayerPedId())
     local x, y, z = table.unpack(coords + forward * 0.77)
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
+      return QBCore.Functions.Notify('You cannot use the metal detector whilst in a vehicle', 'error')
+    end
     if inZone == 1 then 
         QBCore.Functions.Progressbar('InZone', 'Searching the area...', math.random(7000), false, true, {
             disableMovement = true,
