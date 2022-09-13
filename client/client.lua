@@ -30,6 +30,9 @@ end
 
 RegisterNetEvent('al-treasurehunt:detect')
 AddEventHandler('al-treasurehunt:detect', function()
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
+      return QBCore.Functions.Notify('You cannot use the metal detector whilst in a vehicle', 'error')
+    end
     local coords = GetEntityCoords(PlayerPedId())
     local forward = GetEntityForwardVector(PlayerPedId())
     local x, y, z = table.unpack(coords + forward * 0.77)
