@@ -142,11 +142,10 @@ AddEventHandler('al-treasurehunt:usemap', function()
             model = 'p_tourist_map_01_s',
             bone = 28422,
             offset = vector3(0.15, 0.1, 0.0),
-            rotation = vector3(270.0, 90.0, 80.0)
+            rotation = vector3(0.0, 0.0, 0.0)
         }, {}, function()
             setlocation = GetLocation()
             generatepolyz(setlocation)
-            print("poly loaded and dat")
             TriggerServerEvent("al-treasurehunt:removemap")
             ZoneExists = true
             setblip(setlocation)  
