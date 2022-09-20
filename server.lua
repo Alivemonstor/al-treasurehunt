@@ -20,7 +20,6 @@ RegisterServerEvent('al-treasurehunt:AddItems', function()
         TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items[Item], "add")
         TriggerClientEvent('QBCore:Notify', src, "You found ".. QBCore.Shared.Items[Item].label .."!", "success")
     end
-    TriggerClientEvent('al-treasurehunt:destroyzone', src)
 end)
 
 RegisterServerEvent("al-treasurehunt:removemap", function()
@@ -106,4 +105,3 @@ RegisterNetEvent('al-treasurehunt:SellGold', function()
         TriggerClientEvent('QBCore:Notify', src, "You dont have any gold!", "error")
     end
 end)
-
