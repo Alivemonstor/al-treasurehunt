@@ -11,14 +11,14 @@ local boneoffsets = {
     },
 }
 
-RegisterNetEvent('al-treasurehunt:destroyzone', function()
+function destroyZone()
     treasurezone:destroy()
     inZone = 0
     ZoneExists = false
     local destroyblip = RemoveBlip(destination)
     local destroyblip2 = RemoveBlip(treasureblip)
     isDetecting = false
-end)
+end
 
 local function AttachEntity(ped, model)
     if boneoffsets[model] then
@@ -63,6 +63,7 @@ RegisterNetEvent('al-treasurehunt:detect', function()
                 Citizen.Wait(5000)
                 StopAnimTask(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 1.0)
                 DeleteEntity(objman)
+                destroyZone()
                 TriggerServerEvent('al-treasurehunt:AddItems')
             end)
         else
