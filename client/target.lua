@@ -1,14 +1,12 @@
-
-
 CreateThread(function()
     exports['qb-target']:SpawnPed({
         model = Config.PedModel,
-        coords = Config.PedLocation, 
-        minusOne = true, 
-        freeze = true, 
-        invincible = true, 
+        coords = Config.PedLocation,
+        minusOne = true,
+        freeze = true,
+        invincible = true,
         blockevents = true,
-        target = { 
+        target = {
             options = {
                 {
                     type = "server",
