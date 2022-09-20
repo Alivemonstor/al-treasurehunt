@@ -65,6 +65,7 @@ RegisterNetEvent('al-treasurehunt:detect', function()
                 DeleteEntity(objman)
                 TriggerServerEvent('al-treasurehunt:AddItems')
             end)
+	    IsDetecting = false
         else
             QBCore.Functions.Progressbar('OutZone', 'Searching the area...', math.random(5000, 10000), false, true, {
                 disableMovement = true,
