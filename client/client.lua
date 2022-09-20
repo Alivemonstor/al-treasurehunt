@@ -11,8 +11,7 @@ local boneoffsets = {
     },
 }
 
-RegisterNetEvent('al-treasurehunt:destroyzone')
-AddEventHandler('al-treasurehunt:destroyzone', function()
+RegisterNetEvent('al-treasurehunt:destroyzone', function()
     treasurezone:destroy()
     inZone = 0
     ZoneExists = false
@@ -30,8 +29,7 @@ local function AttachEntity(ped, model)
     end
 end
 
-RegisterNetEvent('al-treasurehunt:detect')
-AddEventHandler('al-treasurehunt:detect', function()
+RegisterNetEvent('al-treasurehunt:detect', function()
     if IsPedInAnyVehicle(PlayerPedId(), false) then
       return QBCore.Functions.Notify('You cannot use the metal detector whilst in a vehicle', 'error')
     end
@@ -40,7 +38,7 @@ AddEventHandler('al-treasurehunt:detect', function()
         local forward = GetEntityForwardVector(PlayerPedId())
         local x, y, z = table.unpack(coords + forward * 0.77)
         isDetecting = true
-        if inZone == 1 then 
+        if inZone == 1 then
             QBCore.Functions.Progressbar('InZone', 'Searching the area...', math.random(7000), false, true, {
                 disableMovement = true,
                 disableCarMovement = true,
@@ -59,7 +57,7 @@ AddEventHandler('al-treasurehunt:detect', function()
                 local Head = GetEntityHeading(PlayerPedId())
                 PlaceObjectOnGroundProperly(objman)
                 SetEntityRotation(objman, 0.0, 0.0, Head+10.0)
-                QBCore.Functions.RequestAnimDict('anim@treasurehunt@hatchet@action')  
+                QBCore.Functions.RequestAnimDict('anim@treasurehunt@hatchet@action')
                 TaskPlayAnim(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 8.0, -8.0, -1, 1, 31, true, true, true)
                 PlayEntityAnim(objman, "hatchet_pickup_chest", "anim@treasurehunt@hatchet@action", 1000.0, false, true, 0, 0.0, 0)
                 Citizen.Wait(5000)
@@ -77,7 +75,7 @@ AddEventHandler('al-treasurehunt:detect', function()
                 animDict = 'mini@golfai',
                 anim = 'wood_idle_a',
                 flags = 49,
-            }, {}, {}, function()  
+            }, {}, {}, function()
                 QBCore.Functions.Notify("You found nothing, maybe try somewhere else.", "error")
             end)
             isDetecting = false
@@ -97,7 +95,7 @@ local function generatepolyz(setlocation)
         name = setlocation.name,
         debugPoly = setlocation.debugPoly,
     })
-        
+
     treasurezone:onPlayerInOut(function(isPointInside)
         if isPointInside then
             inZone = 1
@@ -105,7 +103,7 @@ local function generatepolyz(setlocation)
                 if HasItem then
                     AttachEntity(PlayerPedId(), "w_am_digiscanner")
                 end
-            end, 'metaldetector') 
+            end, 'metaldetector')
         else
             inZone = 0
             DetachEntity(ent, 0, 0)
@@ -126,8 +124,7 @@ function setblip(setlocation)
 end
 
 
-RegisterNetEvent('al-treasurehunt:usemap')
-AddEventHandler('al-treasurehunt:usemap', function()
+RegisterNetEvent('al-treasurehunt:usemap', function()
     if not ZoneExists then
         QBCore.Functions.Progressbar('UseMap', 'Looking at the map....', 10000, false, true, {
             disableMovement = true,
@@ -148,7 +145,7 @@ AddEventHandler('al-treasurehunt:usemap', function()
             generatepolyz(setlocation)
             TriggerServerEvent("al-treasurehunt:removemap")
             ZoneExists = true
-            setblip(setlocation)  
+            setblip(setlocation)
         end)
     else
         QBCore.Functions.Notify('You have already used a map!', 'error')
@@ -156,8 +153,7 @@ AddEventHandler('al-treasurehunt:usemap', function()
 end)
 
 
-RegisterNetEvent('al-treasurehunt:sellitems')
-AddEventHandler('al-treasurehunt:sellitems', function()
+RegisterNetEvent('al-treasurehunt:sellitems', function()
     exports['qb-menu']:openMenu({
         {
             header = "Martin's Backpack Shop",
