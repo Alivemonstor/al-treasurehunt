@@ -34,9 +34,6 @@ RegisterNetEvent('al-treasurehunt:detect', function()
       return QBCore.Functions.Notify('You cannot use the metal detector whilst in a vehicle', 'error')
     end
     if not isDetecting then
-        local coords = GetEntityCoords(PlayerPedId())
-        local forward = GetEntityForwardVector(PlayerPedId())
-        local x, y, z = table.unpack(coords + forward * 0.77)
         isDetecting = true
         if inZone == 1 then
             QBCore.Functions.Progressbar('InZone', 'Searching the area...', math.random(7000), false, true, {
@@ -49,10 +46,14 @@ RegisterNetEvent('al-treasurehunt:detect', function()
                 anim = 'wood_idle_a',
                 flags = 49,
             }, {}, {}, function()
+                FreezeEntityPosition(PlayerPedId(), true)
                 TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10, 'metaldetector', 0.2)
                 Citizen.Wait(3000)
                 DetachEntity(ent, 0, 0)
                 DeleteEntity(ent)
+                local coords = GetEntityCoords(PlayerPedId())
+                local forward = GetEntityForwardVector(PlayerPedId())
+                local x, y, z = table.unpack(coords + forward * 0.57)
                 local objman = CreateObject('xm_prop_x17_chest_closed', x, y, z, true, false, false)
                 local Head = GetEntityHeading(PlayerPedId())
                 PlaceObjectOnGroundProperly(objman)
@@ -62,6 +63,7 @@ RegisterNetEvent('al-treasurehunt:detect', function()
                 PlayEntityAnim(objman, "hatchet_pickup_chest", "anim@treasurehunt@hatchet@action", 1000.0, false, true, 0, 0.0, 0)
                 Citizen.Wait(5000)
                 StopAnimTask(PlayerPedId(), "anim@treasurehunt@hatchet@action", "hatchet_pickup", 1.0)
+                FreezeEntityPosition(PlayerPedId(), false)
                 DeleteEntity(objman)
                 destroyZone()
                 TriggerServerEvent('al-treasurehunt:AddItems')
